@@ -3,10 +3,13 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
+import mongoose from "mongoose";
 
 const apiKey = process.env.GOOGLE_API_KEY;
+const mongoURI = process.env.MONGO_DB_URI;
 const app = express();
 const port = 3000;
+const genAI = new GoogleGenerativeAI(apiKey);
 
 // Refactoring Schema
 const refactoringSchema = {
@@ -73,8 +76,6 @@ const metricsSchema = {
   required: ["original_code", "line_count", "cyclomatic_complexity", "maintainability_index", "code_smells", "duplicate_lines", "unused_variables"],
 };
 
-// Initialize Google Generative AI models
-const genAI = new GoogleGenerativeAI(apiKey);
 
 // Model for refactoring
 const refactoringModel = genAI.getGenerativeModel({
@@ -152,5 +153,5 @@ app.post('/metrics', async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running at port ${port}`);
 });

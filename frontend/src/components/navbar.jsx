@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../src/context/userContext';
 import logo from '../assets/opticode.png';
 import unknown from '../assets/unknown.jpg';
+import { FaLightbulb } from 'react-icons/fa'; 
 
 const Navbar = () => {
     const { userData } = useUserContext();
@@ -10,6 +11,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [hoveredLink, setHoveredLink] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const getLinkStyle = (linkName, path) => {
         const isActive = location.pathname === path;
@@ -17,8 +19,8 @@ const Navbar = () => {
             color: isActive
                 ? 'rgb(211, 211, 211)'
                 : hoveredLink === linkName
-                ? 'rgb(211, 211, 211)'
-                : '#ffffff',
+                    ? 'rgb(211, 211, 211)'
+                    : '#ffffff',
             textShadow: '1px 1px 3px rgba(0, 0, 0, 0.2)',
             transition: 'color 0.3s ease',
             fontSize: '1.1em',
@@ -107,9 +109,8 @@ const Navbar = () => {
 
             {/* Sidebar */}
             <div
-                className={`fixed top-0 right-0 h-full w-64 bg-black shadow-lg transform ${
-                    isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-                } transition-transform duration-300 ease-in-out`}
+                className={`fixed top-0 right-0 h-full w-64 bg-black shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+                    } transition-transform duration-300 ease-in-out`}
                 style={{ zIndex: 100 }}
             >
                 <button
@@ -133,16 +134,31 @@ const Navbar = () => {
                     >
                         View Profile
                     </button>
-                    <Link to="/" className="text-white text-lg">
+                    <Link to="/" className="text-white text-lg mb-4">
                         Logout
                     </Link>
                 </div>
-                {/* F.A.M. Footer */}
-                <p
-                    className="text-white absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm"
-                >
-                    © Team OptiCode
-                </p>
+                {/* Footer */}
+                <div className='flex flex-col justify-center items-center'>
+                    <p className="flex flex-row text-white absolute bottom-11 text-m">
+                        <div
+                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            className="cursor-pointer"
+                        >
+                            <FaLightbulb
+                                size={30}
+                                className={isDarkMode ? 'text-yellow-400' : 'text-white'}
+                                style={{ transition: 'color 0.3s ease', position: 'relative', bottom: '5px' }}
+                            />
+                        </div>
+                        &nbsp;&nbsp;Enable Dark Mode&nbsp;&nbsp;
+                    </p>
+                    <p
+                        className="text-white absolute bottom-4 text-sm"
+                    >
+                        © Team OptiCode
+                    </p>
+                </div>
             </div>
         </nav>
     );
