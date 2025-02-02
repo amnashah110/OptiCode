@@ -14,6 +14,12 @@
       url("./fonts/PoppinsRegular.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: "Fira";  
+    src: local("FiraMono-Regular"),
+      url("./fonts/FiraMono-Regular.ttf") format("truetype");
+}
+
 /* Shine effect for the circle link */
 .circle-link {
     position: relative;
