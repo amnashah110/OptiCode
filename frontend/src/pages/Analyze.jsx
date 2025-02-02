@@ -150,7 +150,6 @@ const Analyze = () => {
                   <SyntaxHighlighter
                     language={response.language || 'text'}
                     style={isDarkMode ? dark : docco}
-                    wrapLongLines
                     showLineNumbers
                     customStyle={{
                       backgroundColor: isDarkMode ? '#2d3748' : '#e5e7eb',
