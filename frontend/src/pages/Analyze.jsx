@@ -103,7 +103,7 @@ const Analyze = () => {
               className={`flex-grow w-full p-4 ${codeBgColor} ${codeColor} rounded-b-lg resize-none font-Fira text-sm border-none focus:outline-none ${isDarkMode ? 'placeholder-gray-300' : 'placeholder-gray-700'}`}
               style={{
                 scrollbarWidth: 'thin',
-                scrollbarColor: 'gray lightgray',
+                scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
                 fontSize: '1em',
               }}
             />
