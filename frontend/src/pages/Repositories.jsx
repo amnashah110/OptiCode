@@ -347,7 +347,7 @@ const Repositories = () => {
                                     overflowY: 'auto',
                                     overflowX: 'hidden',
                                     scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
-                                    maxHeight: '65vh',
+                                    maxHeight: '68vh',
                                 }}>
                                     <div className='flex justify-end sticky top-2 z-10'>
                                         <button
