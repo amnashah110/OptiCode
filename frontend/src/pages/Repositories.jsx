@@ -205,7 +205,7 @@ const Repositories = () => {
                             overflowY: 'auto',
                             overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: 'rgb(7, 7, 7) white',
+                            scrollbarColor: isDarkMode ? `rgb(160, 160, 160) ${mainBarColor}` : `rgb(7, 7, 7) ${mainBarColor}`,
                             fontFamily: 'PoppinsRegular'
                         }}
                     >
@@ -263,7 +263,7 @@ const Repositories = () => {
                             overflowY: 'auto',
                             overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: 'rgb(7, 7, 7) white',
+                            scrollbarColor: isDarkMode ? `rgb(160, 160, 160) ${sideBarColor}` : `rgb(7, 7, 7) ${sideBarColor}`,
                         }}
                     >
                         {filesLoaded ? (
@@ -346,9 +346,8 @@ const Repositories = () => {
                                     whiteSpace: 'pre-wrap',
                                     overflowY: 'auto',
                                     overflowX: 'hidden',
-                                    scrollbarWidth: 'thin',
-                                    scrollbarColor: 'rgb(7, 7, 7) white',
-                                    maxHeight: '70vh',
+                                    scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
+                                    maxHeight: '65vh',
                                 }}>
                                     <div className='flex justify-end sticky top-2 z-10'>
                                         <button
@@ -370,13 +369,13 @@ const Repositories = () => {
                                     <SyntaxHighlighter
                                         language={language}
                                         style={isDarkMode ? dark : docco}
-                                        wrapLongLines={true}
                                         showLineNumbers
                                         customStyle={{
                                             backgroundColor: isDarkMode ? '#2d3748' : '#e5e7eb',
                                             borderRadius: '10px',
                                             paddingTop: '3%',
-                                            paddingBottom: '3%'
+                                            paddingBottom: '3%',
+                                            scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
                                         }}
                                     >
                                         {fileContent || 'Select a file to view its content'}
