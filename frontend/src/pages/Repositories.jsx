@@ -4,14 +4,13 @@ import Navbar from '../components/navbar';
 import { docco, dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { FaCopy } from 'react-icons/fa';
 import { FaCheck } from "react-icons/fa";
-import { FcOpenedFolder } from "react-icons/fc";
-import { FcFile } from "react-icons/fc";
+import { VscFolderOpened } from "react-icons/vsc";
+import { FaRegFileLines } from "react-icons/fa6";
 import spinnerGIF from '../assets/spinner.gif'
 import { RiDownload2Fill } from "react-icons/ri";
 import { MdArrowBack } from "react-icons/md";
 
-const username = 'completelyblank';
-const PAT = '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';
+const username = localStorage.getItem('githubHandle');
 
 const allowedExtensions = [
     "js", "jsx", "ts", "tsx", "html", "css", "scss", "json", "xml", "py",
@@ -65,14 +64,25 @@ const Repositories = () => {
     const [codeLoaded, setCodeLoaded] = useState(true);
     const [imageUrl, setImageUrl] = useState(null);
     const [error, setError] = useState(null);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
 
-    const textColor = isDarkMode ? 'text-white' : 'text-black';
-    const subTextColor = isDarkMode ? 'text-gray-300' : 'text-black';
-    const bgColor = isDarkMode ? '#1f2937' : 'rgb(255, 255, 255)';
-    const sideBarColor = isDarkMode ? 'rgb(23, 30, 43)' : 'rgb(65, 65, 66)';
-    const mainBarColor = isDarkMode ? 'rgb(14, 17, 22)' : 'rgb(40, 40, 41)';
+    useEffect(() => {
+        const handleStorageChange = () => {
+            setDarkMode(JSON.parse(localStorage.getItem('darkMode')) || false);
+        };
 
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+    const textColor = darkMode ? 'text-white' : 'text-black';
+    const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
+    const bgColor = darkMode ? '#030712' : 'rgb(255, 255, 255)';
+    const sideBarColor = darkMode ? 'rgb(23, 30, 43)' : 'rgb(65, 65, 66)';
+    const mainBarColor = darkMode ? 'rgb(14, 17, 22)' : 'rgb(40, 40, 41)';
 
     const copyToClipboard = () => {
         const code = fileContent || '';
@@ -87,9 +97,7 @@ const Repositories = () => {
     useEffect(() => {
         const fetchRepositories = async () => {
             try {
-                const response = await fetch(`https://api.github.com/users/${username}/repos`,
-                    { headers: { Authorization: `token ${PAT}` } }
-                );
+                const response = await fetch(`https://api.github.com/users/${username}/repos`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch repositories');
                 }
@@ -110,9 +118,7 @@ const Repositories = () => {
         try {
             setSelectedRepo(repoName);
             setCurrentPath(path);
-            const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${path}`,
-                { headers: { Authorization: `token ${PAT}` } }
-            );
+            const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${path}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch files');
             }
@@ -205,7 +211,7 @@ const Repositories = () => {
                             overflowY: 'auto',
                             overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: isDarkMode ? `rgb(160, 160, 160) ${mainBarColor}` : `rgb(7, 7, 7) ${mainBarColor}`,
+                            scrollbarColor: darkMode ? `rgb(160, 160, 160) ${mainBarColor}` : `rgb(7, 7, 7) ${mainBarColor}`,
                             fontFamily: 'PoppinsRegular'
                         }}
                     >
@@ -254,7 +260,7 @@ const Repositories = () => {
                     </h2>
                     {currentPath && (
                         <button className='flex flex-row' onClick={goBack} style={{ fontFamily: 'Poppins', marginBottom: '10px', cursor: 'pointer' }}>
-                            <MdArrowBack size={22}/>&nbsp;Go Back
+                            <MdArrowBack size={22} />&nbsp;Go Back
                         </button>
                     )}
                     <div
@@ -263,7 +269,7 @@ const Repositories = () => {
                             overflowY: 'auto',
                             overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: isDarkMode ? `rgb(160, 160, 160) ${sideBarColor}` : `rgb(7, 7, 7) ${sideBarColor}`,
+                            scrollbarColor: darkMode ? `rgb(160, 160, 160) ${sideBarColor}` : `rgb(7, 7, 7) ${sideBarColor}`,
                         }}
                     >
                         {filesLoaded ? (
@@ -281,7 +287,7 @@ const Repositories = () => {
                                     >
                                         <div className='flex flex-row'>
                                             <div>
-                                                {file.type === 'dir' ? <FcOpenedFolder size={22} /> : <FcFile size={22} />}
+                                                {file.type === 'dir' ? <VscFolderOpened size={20} /> : <FaRegFileLines size={20} />}
                                             </div>
                                             <div
                                                 style={{
@@ -346,7 +352,7 @@ const Repositories = () => {
                                     whiteSpace: 'pre-wrap',
                                     overflowY: 'auto',
                                     overflowX: 'hidden',
-                                    scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
+                                    scrollbarColor: darkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
                                     maxHeight: '68vh',
                                 }}>
                                     <div className='flex justify-end sticky top-2 z-10'>
@@ -368,14 +374,14 @@ const Repositories = () => {
                                     </div>
                                     <SyntaxHighlighter
                                         language={language}
-                                        style={isDarkMode ? dark : docco}
+                                        style={darkMode ? dark : docco}
                                         showLineNumbers
                                         customStyle={{
-                                            backgroundColor: isDarkMode ? '#2d3748' : '#e5e7eb',
+                                            backgroundColor: darkMode ? '#2d3748' : '#e5e7eb',
                                             borderRadius: '10px',
                                             paddingTop: '3%',
                                             paddingBottom: '3%',
-                                            scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
+                                            scrollbarColor: darkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
                                         }}
                                     >
                                         {fileContent || 'Select a file to view its content'}

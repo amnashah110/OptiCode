@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Typewriter } from 'react-simple-typewriter';
-import { useUserContext } from '../../src/context/userContext';
 import icon from '../assets/opti.png';
 import loginImg from '../assets/login.jpg';
 import showPasswordImg from '../assets/eye.png';
 import hidePasswordImg from '../assets/hidden.png';
 import { motion } from 'framer-motion';
+import { useSnackbar } from "notistack";
 
 const LoginPage = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,21 +24,29 @@ const LoginPage = () => {
     const [signUpError, setSignUpError] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [gender, setGender] = useState('');
+    const [experienceLevel, setExperienceLevel] = useState('');
     const [age, setAge] = useState('');
+    const [githubHandle, setGithubHandle] = useState('');
     const [isError, setIsError] = useState(false);
-    const { setUserData } = useUserContext();
+    const [errorMessage, setErrorMessage] = useState('')
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/'); 
+        }
+    }, []);
 
     const validateForm = () => {
         setIsError(false);
         const formErrors = {};
-        if ((!username || !password) && !isSignup) {
+        if ((!githubHandle || !password) && !isSignup) {
             formErrors.required = 'All fields are required';
             setIsError(true);
         };
-        if (isSignup && (!username || !password || !firstName || !lastName || !gender || !age)) {
+        if (isSignup && (!githubHandle || !password || !firstName || !lastName || !experienceLevel || !age)) {
             formErrors.required = 'All fields are required'
             setIsError(true);
         };
@@ -50,6 +59,7 @@ const LoginPage = () => {
 
     const handleSignUp = async (event) => {
         event.preventDefault();
+        setErrorMessage('');
         setPressed(true);
         setSignUpError(false);
 
@@ -59,22 +69,35 @@ const LoginPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/', { username, password, isSignup, firstName, lastName, gender, age });
+            const response = await axios.post('http://localhost:3000/auth/signup', {
+                firstName, lastName, age, githubHandle, experienceLevel, password
+            });
 
-            if (response.data.status === 1) {
+            setErrorMessage(response.data.message);
+
+            if (response.status === 201) { 
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('token', response.data.token);
+                enqueueSnackbar('Account Created Successfully', { variant: 'success', autoHideDuration: 1000 });
                 setIsSignup(false);
                 setLoginError(false);
             } else {
                 setSignUpError(true);
             }
         } catch (error) {
-            navigate('/');
+            if (error.response) {
+                setErrorMessage(error.response.data.error); 
+            } else {
+                console.log("Unexpected error:", error.message);
+            }
+            setSignUpError(true);
         }
+
     };
 
     const handleLogin = async (event) => {
-        console.log('login');
         event.preventDefault();
+        setErrorMessage('');
         setPressed(true);
         setLoginError(false);
 
@@ -84,24 +107,30 @@ const LoginPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/', { username: username, password, isSignup });
-
-            if (response.data.status === 1) {
-                const { USER_ID, PASSWORD, FIRST_NAME, LAST_NAME, GENDER, AGE, TOKEN_COUNT, THEME } = response.data.user;
-                setUserData({ userID: USER_ID, username, password: PASSWORD, firstName: FIRST_NAME, lastName: LAST_NAME, gender: GENDER, age: AGE, theme: THEME, token: TOKEN_COUNT, logged: false, card: false });
-                navigate('/dashboard');
+            const response = await axios.post('http://localhost:3000/auth/login', { githubHandle, password });
+            setErrorMessage(response.data.message);
+            if (response.status === 200) {
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('firstName', response.data.user.firstName);
+                localStorage.setItem('lastName', response.data.user.lastName);
+                localStorage.setItem('githubHandle', response.data.user.githubHandle);
+                localStorage.setItem('darkMode', response.data.user.darkMode);
+                navigate('/');
             } else {
                 setLoginError(true);
             }
         } catch (error) {
-            console.error('Login error:', error);
+            if (error.response) {
+                setErrorMessage(error.response.data.error); 
+            } else {
+                console.log("Unexpected error:", error.message);
+            }
             setLoginError(true);
         }
     };
 
     useEffect(() => {
         const timer = setTimeout(() => setLoading(false), 1000);
-        setUserData({});
         return () => clearTimeout(timer);
     }, []);
 
@@ -134,12 +163,12 @@ const LoginPage = () => {
                     </h2>
                     <form onSubmit={isSignup ? handleSignUp : handleLogin}>
                         <div className="mb-4">
-                            <label className="block mb-1 font-Poppins" style={{ fontSize: '1.1em', color: '#A9A9A9' }}>Username</label>
+                            <label className="block mb-1 font-Poppins" style={{ fontSize: '1.1em', color: '#A9A9A9' }}>Github Username</label>
                             <input
                                 type="text"
                                 className="w-full p-2 rounded-lg bg-gray-700 text-white font-PoppinsRegular focus:outline-white"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={githubHandle}
+                                onChange={(e) => setGithubHandle(e.target.value)}
                             />
                         </div>
                         <div className={`flex mb-4 ${isSignup ? 'space-x-4' : 'flex-col'}`}>
@@ -220,15 +249,15 @@ const LoginPage = () => {
                                     />
                                 </div>
                                 <div className="w-1/2 pl-2">
-                                    <label className="block mb-1 font-PoppinsBold" style={{ fontSize: '1.1em', color: '#A9A9A9' }}>Gender</label>
+                                    <label className="block mb-1 font-PoppinsBold" style={{ fontSize: '1.1em', color: '#A9A9A9' }}>Experience Level</label>
                                     <select
                                         className="w-full p-2 rounded-lg bg-gray-700 text-white font-PoppinsRegular focus:outline-white"
-                                        value={gender}
-                                        onChange={(e) => setGender(e.target.value)}
+                                        value={experienceLevel}
+                                        onChange={(e) => setExperienceLevel(e.target.value)}
                                     >
-                                        <option value="">Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="">Select Level</option>
+                                        <option value="learner">Learner</option>
+                                        <option value="experienced">Experienced</option>
                                     </select>
                                 </div>
                             </div>
@@ -242,9 +271,9 @@ const LoginPage = () => {
                         >
                             {isSignup ? 'Sign Up' : 'Login'}
                         </motion.button>
-                        {loginError && <p className="text-red-500 text-center mt-4">Username or Password is Incorrect</p>}
+                        {loginError && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
                         {isError && <p className="text-red-500 text-center mt-2">All Fields Are Required!</p>}
-                        {signUpError && <p className="text-red-500 text-center mt-2">Username Already Taken</p>}
+                        {signUpError && <p className="text-red-500 text-center mt-2">{errorMessage}</p>}
                     </form>
                     <p className="text-center mt-4">
 

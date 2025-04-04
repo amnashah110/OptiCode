@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar';
 import { Typewriter } from 'react-simple-typewriter';
 import Footer from '../components/footer';
@@ -8,11 +8,23 @@ import avatarA from '../assets/amna.jpeg';
 import avatarF from '../assets/falah.jpeg';
 
 const About = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
 
-    const textColor = isDarkMode ? 'text-white' : 'text-black';
-    const subTextColor = isDarkMode ? 'text-gray-300' : 'text-black';
-    const bgColor = isDarkMode ? 'bg-gray-900' : 'bg-white';
+    useEffect(() => {
+        const handleStorageChange = () => {
+            setDarkMode(JSON.parse(localStorage.getItem('darkMode')) || false);
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+    const textColor = darkMode ? 'text-white' : 'text-black';
+    const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
+    const bgColor = darkMode ? 'bg-gray-950' : 'bg-white';
 
     return (
         <div className={`h-screen overflow-auto ${bgColor}`}>
@@ -45,45 +57,31 @@ const About = () => {
                     the ideal tool for developers striving for cleaner, more efficient code.
                 </p>
 
-                {/* Bulb Icon for Dark/Light Mode Toggle */}
-                <div
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="cursor-pointer mb-6 flex items-center justify-center"
-                >
-                    <FaLightbulb
-                        size={40}
-                        className={isDarkMode ? 'text-yellow-400' : 'text-black'}
-                        style={{ transition: 'color 0.3s ease' }}
-                    />
-                </div>
-
                 <h2 className={`text-3xl font-Poppins ${textColor} mt-10 mb-6`}>Meet the Creators</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Creator Cards */}
-                    {[
-                        {
-                            name: 'Muhammad Raza Khan',
-                            role: 'Full-Stack Developer',
-                            passion: 'building robust web solutions',
-                            image: avatarM,
-                        },
-                        {
-                            name: 'Falah Zainab',
-                            role: 'Data Analyst',
-                            passion: 'deriving meaningful insights from data',
-                            image: avatarF
-                        },
-                        {
-                            name: 'Amna Shah',
-                            role: 'Backend Specialist',
-                            passion: 'crafting seamless backend integrations',
-                            image: avatarA
-                        },
-                    ].map((creator, index) => (
+                    {[{
+                        name: 'Muhammad Raza Khan',
+                        role: 'Full-Stack Developer',
+                        passion: 'building robust web solutions',
+                        image: avatarM,
+                    },
+                    {
+                        name: 'Falah Zainab',
+                        role: 'Data Analyst',
+                        passion: 'deriving meaningful insights from data',
+                        image: avatarF,
+                    },
+                    {
+                        name: 'Amna Shah',
+                        role: 'Backend Specialist',
+                        passion: 'crafting seamless backend integrations',
+                        image: avatarA,
+                    }].map((creator, index) => (
                         <div
                             key={index}
                             className={`shadow-lg rounded-lg p-6 text-center relative hover:scale-105 transform transition-all duration-300 ${
-                                isDarkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-200 text-black'
+                                darkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-200 text-black'
                             }`}
                         >
                             <div className="w-28 h-28 mx-auto mb-4 rounded-full bg-gray-200 shadow-inner overflow-hidden">

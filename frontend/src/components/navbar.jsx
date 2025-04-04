@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../src/context/userContext';
 import logo from '../assets/opticode.png';
 import unknown from '../assets/unknown.jpg';
-import { FaLightbulb } from 'react-icons/fa'; 
+import { FaLightbulb } from 'react-icons/fa';
+import axios from 'axios';
+import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const Navbar = () => {
-    const { userData } = useUserContext();
     const location = useLocation();
     const navigate = useNavigate();
     const [hoveredLink, setHoveredLink] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    const githubHandle = localStorage.getItem('githubHandle')
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('darkMode');
+        if (savedTheme === 'true') {
+            setIsDarkMode(true);
+            document.body.classList.add('dark');
+        } else {
+            setIsDarkMode(false);
+            document.body.classList.remove('dark');
+        }
+    }, []);
 
     const getLinkStyle = (linkName, path) => {
         const isActive = location.pathname === path;
@@ -34,6 +48,36 @@ const Navbar = () => {
     const handleViewProfile = () => {
         setIsSidebarOpen(false);
         navigate('/profile');
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('githubHandle');
+        navigate('/login');
+    };
+
+    const toggleDarkMode = async () => {
+        const newDarkMode = !isDarkMode;
+        setIsDarkMode(newDarkMode);
+        localStorage.setItem('darkMode', newDarkMode);
+        window.dispatchEvent(new Event("storage"));
+
+        if (newDarkMode) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+        }
+        console.log(newDarkMode);
+        try {
+            await axios.put('http://localhost:3000/pref/updateTheme', {
+                darkMode: newDarkMode,
+                githubHandle: localStorage.getItem('githubHandle')
+            });
+        } catch (error) {
+            console.error('Failed to update theme preference:', error);
+        }
     };
 
     return (
@@ -64,10 +108,10 @@ const Navbar = () => {
                 className="flex flex-1 justify-center space-x-10"
                 style={{ flex: 2, textAlign: 'center' }}
             >
-                {['Home', 'Analyze', 'Metrics', 'Repositories', 'About'].map((linkName, index) => {
-                    const paths = ['/', '/analyze', '/metrics', '/repositories', '/about'];
+                {['Home', 'Analyze', 'Metrics', 'Repositories', 'Code Editor', 'About'].map((linkName, index) => {
+                    const paths = ['/', '/analyze', '/metrics', '/repositories', '/editor', '/about'];
                     return (
-                        <div className="relative" key={index}>
+                        <div className="relative" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }} key={index}>
                             <Link
                                 to={paths[index]}
                                 style={getLinkStyle(linkName, paths[index])}
@@ -95,12 +139,14 @@ const Navbar = () => {
 
             <div className="flex-1 flex justify-end items-center space-x-4">
                 <p style={{ fontSize: '1.1em', color: 'white' }}>
-                    Welcome, {userData?.firstName || 'Guest'}
+                    Welcome, {firstName ? `${firstName}` : 'Guest'}
                 </p>
                 <div
                     className="w-8 h-8 rounded-full bg-center bg-cover"
                     style={{
-                        backgroundImage: `url(${userData?.image || unknown})`,
+                        backgroundImage: githubHandle
+                            ? `url(https://github.com/${githubHandle}.png)`
+                            : `url(${unknown})`,
                         cursor: 'pointer',
                     }}
                     onClick={toggleSidebar}
@@ -123,26 +169,40 @@ const Navbar = () => {
                     <div
                         className="w-16 h-16 lg:w-32 lg:h-32 rounded-full bg-center bg-cover mb-4"
                         style={{
-                            backgroundImage: `url(${userData?.image || unknown})`,
+                            backgroundImage: githubHandle
+                                ? `url(https://github.com/${githubHandle}.png)`
+                                : `url(${unknown})`,
                         }}
                     />
-                    <p className="text-white text-lg">{userData?.firstName || 'Guest'}</p>
+                    <p className="text-white text-lg">{firstName && lastName ? `${firstName} ${lastName}` : 'Guest'}</p>
                     <hr className="w-4/5 my-4" style={{ border: '1px solid white' }} />
-                    <button
-                        onClick={handleViewProfile}
-                        className="text-white text-lg mb-4"
-                    >
-                        View Profile
-                    </button>
-                    <Link to="/" className="text-white text-lg mb-4">
-                        Logout
-                    </Link>
+                    {localStorage.getItem('token') && (
+                        <>
+                            <button
+                                onClick={handleViewProfile}
+                                className="text-white text-lg mb-4"
+                            >
+                                View Profile
+                            </button>
+                            <button onClick={handleLogout} className="text-white text-lg mb-4">
+                                Log Out
+                            </button>
+
+                        </>
+                    )}
+                    {!localStorage.getItem('token') && (
+                        <>
+                            <Link to="/login" className="text-white text-lg mb-4">
+                                Log In
+                            </Link>
+                        </>
+                    )}
                 </div>
                 {/* Footer */}
                 <div className='flex flex-col justify-center items-center'>
                     <p className="flex flex-row text-white absolute bottom-11 text-m">
                         <div
-                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            onClick={toggleDarkMode}
                             className="cursor-pointer"
                         >
                             <FaLightbulb

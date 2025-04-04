@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/navbar';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -6,7 +6,6 @@ import { docco, dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import Spinner from '../components/spinner';
 import { FaCopy } from 'react-icons/fa';
 import { FaCheck } from "react-icons/fa";
-import { FaLightbulb } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const Analyze = () => {
@@ -15,14 +14,26 @@ const Analyze = () => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
 
-  const textColor = isDarkMode ? 'text-white' : 'text-black';
-  const subTextColor = isDarkMode ? 'text-gray-300' : 'text-black';
-  const bgColor = isDarkMode ? 'bg-gray-900' : 'bg-white';
-  const codeBgColor = isDarkMode ? 'bg-gray-700' : 'bg-gray-200';
-  const codeHeadingColor = isDarkMode ? 'bg-black' : 'bg-gray-700';
-  const codeColor = isDarkMode ? 'text-white' : 'text-black';
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setDarkMode(JSON.parse(localStorage.getItem('darkMode')) || false);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  const textColor = darkMode ? 'text-white' : 'text-black';
+  const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
+  const bgColor = darkMode ? 'bg-gray-950' : 'bg-white';
+  const codeBgColor = darkMode ? 'bg-gray-900' : 'bg-gray-200';
+  const codeHeadingColor = darkMode ? 'bg-black' : 'bg-gray-700';
+  const codeColor = darkMode ? 'text-white' : 'text-black';
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -100,11 +111,11 @@ const Analyze = () => {
                 handleKeyDown(e); // Handle Ctrl+Enter for submit
               }}
               placeholder="Enter your code or prompt here..."
-              className={`flex-grow w-full p-4 ${codeBgColor} ${codeColor} rounded-b-lg resize-none font-Fira text-sm border-none focus:outline-none ${isDarkMode ? 'placeholder-gray-300' : 'placeholder-gray-700'}`}
+              className={`flex-grow w-full p-4 ${codeBgColor} ${codeColor} rounded-b-lg resize-none font-Fira text-sm border-none focus:outline-none ${darkMode ? 'placeholder-gray-300' : 'placeholder-gray-700'}`}
               style={{
                 scrollbarWidth: 'thin',
-                scrollbarColor: isDarkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
-                fontSize: '1em',
+                scrollbarColor: darkMode ? 'rgb(160, 160, 160) rgb(45, 55, 72)' : 'rgb(7, 7, 7) rgb(229, 231, 235)',
+                fontSize: '0.9em',
               }}
             />
             <motion.button
@@ -149,13 +160,13 @@ const Analyze = () => {
                 >
                   <SyntaxHighlighter
                     language={response.language || 'text'}
-                    style={isDarkMode ? dark : docco}
+                    style={darkMode ? dark : docco}
                     showLineNumbers
                     customStyle={{
-                      backgroundColor: isDarkMode ? '#2d3748' : '#e5e7eb',
+                      backgroundColor: darkMode ? '#111827' : '#e5e7eb',
                       borderRadius: '0.375rem',
                       padding: '1rem',
-                      fontSize: '1.05em'
+                      fontSize: '1em'
                     }}
                   >
                     {response.refactored_code || 'No refactored code provided'}
