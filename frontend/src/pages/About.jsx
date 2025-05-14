@@ -24,7 +24,10 @@ const About = () => {
 
     const textColor = darkMode ? 'text-white' : 'text-black';
     const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
-    const bgColor = darkMode ? 'bg-gray-950' : 'bg-white';
+    const bgColor = darkMode
+    ? 'bg-gradient-to-br from-gray-500 via-gray-950 to-black'
+    : 'bg-gradient-to-br from-white via-gray-300 to-gray-400';
+  
 
     return (
         <div className={`h-screen overflow-auto ${bgColor}`}>
@@ -81,7 +84,7 @@ const About = () => {
                         <div
                             key={index}
                             className={`shadow-lg rounded-lg p-6 text-center relative hover:scale-105 transform transition-all duration-300 ${
-                                darkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-200 text-black'
+                                darkMode ? 'bg-gradient-to-br from-gray-500 via-gray-950 to-black text-gray-300' : 'bg-gradient-to-br from-white via-gray-300 to-gray-400 text-black'
                             }`}
                         >
                             <div className="w-28 h-28 mx-auto mb-4 rounded-full bg-gray-200 shadow-inner overflow-hidden">

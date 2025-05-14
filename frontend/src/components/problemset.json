@@ -1,0 +1,791 @@
+[
+    {
+      "problem_no": 1,
+      "problem_name": "Nth Highest Salary",
+      "description": "Write a solution to find the nth highest distinct salary from the Employee table. If there are less than n distinct salaries, return null.",
+      "input": {
+        "table": "Employee",
+        "columns": [
+          {
+            "name": "id",
+            "type": "int",
+            "description": "Primary key for the table."
+          },
+          {
+            "name": "salary",
+            "type": "int",
+            "description": "The salary of the employee."
+          }
+        ],
+        "n": "int"
+      },
+      "output": {
+        "columns": [
+          {
+            "name": "getNthHighestSalary(n)",
+            "type": "int or null",
+            "description": "The nth highest distinct salary. Returns null if n is larger than the number of distinct salaries."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "input": {
+            "Employee": [
+              { "id": 1, "salary": 100 },
+              { "id": 2, "salary": 200 },
+              { "id": 3, "salary": 300 }
+            ],
+            "n": 2
+          },
+          "output": [
+            { "getNthHighestSalary(2)": 200 }
+          ]
+        },
+        {
+          "input": {
+            "Employee": [
+              { "id": 1, "salary": 100 }
+            ],
+            "n": 2
+          },
+          "output": [
+            { "getNthHighestSalary(2)": null }
+          ]
+        }
+      ]
+    },
+    {
+      "problem_no": 2,
+      "problem_name": "Increasing Triplet Subsequence",
+      "description": "Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.",
+      "input": {
+        "nums": "Array of integers"
+      },
+      "output": {
+        "result": "Boolean value (true or false) indicating if such a triplet exists"
+      },
+      "examples": [
+        {
+          "input": {
+            "nums": [1, 2, 3, 4, 5]
+          },
+          "output": true,
+          "explanation": "Any triplet where i < j < k is valid."
+        },
+        {
+          "input": {
+            "nums": [5, 4, 3, 2, 1]
+          },
+          "output": false,
+          "explanation": "No triplet exists."
+        },
+        {
+          "input": {
+            "nums": [2, 1, 5, 0, 4, 6]
+          },
+          "output": true,
+          "explanation": "The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6."
+        }
+      ],
+      "constraints": {
+        "nums_length": "1 <= nums.length <= 5 * 10^5",
+        "nums_values_range": "-2^31 <= nums[i] <= 2^31 - 1"
+      },
+      "follow_up": "Could you implement a solution that runs in O(n) time complexity and O(1) space complexity?"
+    },
+    {
+        "problem": {
+          "problem_no": 3 ,  
+          "title": "String Compression",
+          "description": "Given an array of characters chars, compress it using the following algorithm:\n\nBegin with an empty string s. For each group of consecutive repeating characters in chars:\n\nIf the group's length is 1, append the character to s.\nOtherwise, append the character followed by the group's length.\nThe compressed string s should not be returned separately, but instead, be stored in the input character array chars. Note that group lengths that are 10 or longer will be split into multiple characters in chars.\n\nAfter you are done modifying the input array, return the new length of the array.\n\nYou must write an algorithm that uses only constant extra space.",
+          "constraints": {
+            "chars_length": "1 <= chars.length <= 2000",
+            "chars_elements": "chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol."
+          }
+        },
+        "examples": [
+          {
+            "input": {
+              "chars": ["a", "a", "b", "b", "c", "c", "c"]
+            },
+            "output": {
+              "length": 6,
+              "compressed_chars": ["a", "2", "b", "2", "c", "3"]
+            },
+            "explanation": "The groups are 'aa', 'bb', and 'ccc'. This compresses to 'a2b2c3'."
+          },
+          {
+            "input": {
+              "chars": ["a"]
+            },
+            "output": {
+              "length": 1,
+              "compressed_chars": ["a"]
+            },
+            "explanation": "The only group is 'a', which remains uncompressed since it's a single character."
+          },
+          {
+            "input": {
+              "chars": ["a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"]
+            },
+            "output": {
+              "length": 4,
+              "compressed_chars": ["a", "b", "1", "2"]
+            },
+            "explanation": "The groups are 'a' and 'bbbbbbbbbbbb'. This compresses to 'ab12'."
+          }
+        ]
+      },
+      {
+        "problem_no": 4,
+        "problem_name": "Product of Array Except Self",
+        "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation.",
+        "input": {
+          "nums": [
+            "Array of integers where 2 <= nums.length <= 10^5, and -30 <= nums[i] <= 30"
+          ]
+        },
+        "output": {
+          "answer": [
+            "Array of integers where answer[i] is the product of all elements of nums except nums[i]."
+          ]
+        },
+        "constraints": [
+          "2 <= nums.length <= 10^5",
+          "-30 <= nums[i] <= 30"
+        ]
+      },
+      {
+       "problem_no": 5,      
+       "problem_name": "Reverse Vowels of a String",
+       "description": "Given a string s, reverse only all the vowels in the string and return it. The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.",
+       "input": {
+       "s": "A string consisting of printable ASCII characters where 1 <= s.length <= 3 * 10^5."
+    },
+       "output": {
+       "result": "A string with vowels reversed while keeping the consonants in their original position."
+    },
+       "example_1": {
+       "input": "IceCreAm",
+       "output": "AceCreIm",
+       "explanation": "The vowels in 'IceCreAm' are ['I', 'e', 'e', 'A']. After reversing the vowels, the result is 'AceCreIm'."
+    },
+       "example_2": {
+       "input": "leetcode",
+       "output": "leotcede"
+    },
+       "constraints": [
+       "1 <= s.length <= 3 * 10^5",
+       "s consists of printable ASCII characters."
+    ]
+    },
+    {
+    "problem_no" : 6,
+    "problem_name": "Reverse Words in a String",
+    "description": "Given an input string s, reverse the order of the words. A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space. Return a string of the words in reverse order concatenated by a single space. Do not include any extra spaces.",
+    "input": {
+      "s": "A string containing English letters (upper-case and lower-case), digits, and spaces ' '. There is at least one word in s."
+    },
+    "output": {
+      "result": "A string where the words are in reverse order, separated by a single space, with no leading or trailing spaces and no extra spaces between words."
+    },
+    "example_1": {
+      "input": "the sky is blue",
+      "output": "blue is sky the"
+    },
+    "example_2": {
+      "input": "  hello world  ",
+      "output": "world hello",
+      "explanation": "The reversed string should not contain leading or trailing spaces."
+    },
+    "example_3": {
+      "input": "a good   example",
+      "output": "example good a",
+      "explanation": "Multiple spaces between words should be reduced to a single space."
+    },
+    "constraints": [
+      "1 <= s.length <= 10^4",
+      "s contains English letters (upper-case and lower-case), digits, and spaces ' '.",
+      "There is at least one word in s."
+    ]
+    },
+    {
+    "problem_no"  : 7,
+    "problem_name": "Can Place Flowers",
+    "description": "You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots. Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.",
+    "input": {
+      "flowerbed": "An integer array containing 0's (empty plots) and 1's (planted flowers).",
+      "n": "An integer representing the number of new flowers to be planted."
+    },
+    "output": {
+      "result": "A boolean value, true if n new flowers can be planted without violating the no-adjacent-flowers rule, false otherwise."
+    },
+    "example_1": {
+      "input": {
+        "flowerbed": [1,0,0,0,1],
+        "n": 1
+      },
+      "output": true
+    },
+    "example_2": {
+      "input": {
+        "flowerbed": [1,0,0,0,1],
+        "n": 2
+      },
+      "output": false
+    },
+    "constraints": [
+      "1 <= flowerbed.length <= 2 * 10^4",
+      "flowerbed[i] is 0 or 1.",
+      "There are no two adjacent flowers in flowerbed.",
+      "0 <= n <= flowerbed.length"
+    ]
+    },
+    {
+    "problem_no" : 8,
+    "problem_name": "Greatest Common Divisor of Strings",
+    "description": "For two strings s and t, we say 't divides s' if and only if s = t + t + t + ... + t + t (i.e., t is concatenated with itself one or more times). Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.",
+    "input": {
+      "str1": "A string consisting of uppercase English letters.",
+      "str2": "A string consisting of uppercase English letters."
+    },
+    "output": {
+      "result": "The largest string x that divides both str1 and str2, or an empty string if no such string exists."
+    },
+    "example_1": {
+      "input": {
+        "str1": "ABCABC",
+        "str2": "ABC"
+      },
+      "output": "ABC"
+    },
+    "example_2": {
+      "input": {
+        "str1": "ABABAB",
+        "str2": "ABAB"
+      },
+      "output": "AB"
+    },
+    "example_3": {
+      "input": {
+        "str1": "LEET",
+        "str2": "CODE"
+      },
+      "output": ""
+    },
+    "constraints": [
+      "1 <= str1.length, str2.length <= 1000",
+      "str1 and str2 consist of English uppercase letters."
+    ]
+  },
+  {
+    "problem_no": 9,
+    "problem_name": "Merge Strings Alternately",
+    "description": "You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string. Return the merged string.",
+    "input": {
+      "word1": "A string consisting of lowercase English letters.",
+      "word2": "A string consisting of lowercase English letters."
+    },
+    "output": {
+      "result": "The merged string, formed by alternating characters from word1 and word2, with additional letters from the longer string appended to the end."
+    },
+    "example_1": {
+      "input": {
+        "word1": "abc",
+        "word2": "pqr"
+      },
+      "output": "apbqcr"
+    },
+    "example_2": {
+      "input": {
+        "word1": "ab",
+        "word2": "pqrs"
+      },
+      "output": "apbqrs"
+    },
+    "example_3": {
+      "input": {
+        "word1": "abcd",
+        "word2": "pq"
+      },
+      "output": "apbqcd"
+    },
+    "constraints": [
+      "1 <= word1.length, word2.length <= 100",
+      "word1 and word2 consist of lowercase English letters."
+    ]
+   },
+  
+   {  
+    "problem_no": 10,
+    "problem_name": "Maximum Number of Operations to Make Sum Equal to k",
+    "description": "You are given an integer array nums and an integer k. In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array. Return the maximum number of operations you can perform on the array.",
+    "input": {
+      "nums": "An integer array.",
+      "k": "An integer value."
+    },
+    "output": {
+      "result": "The maximum number of operations that can be performed."
+    },
+    "example_1": {
+      "input": {
+        "nums": [1, 2, 3, 4],
+        "k": 5
+      },
+      "output": 2
+    },
+    "example_2": {
+      "input": {
+        "nums": [3, 1, 3, 4, 3],
+        "k": 6
+      },
+      "output": 1
+    },
+    "constraints": [
+      "1 <= nums.length <= 10^5",
+      "1 <= nums[i] <= 10^9",
+      "1 <= k <= 10^9"
+    ]
+    },
+    
+    {
+    "problem_no": 11,
+    "problem_name": "Climbing Stairs",
+    "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+    "input": {
+      "n": "An integer representing the total number of steps."
+    },
+    "output": {
+      "result": "An integer representing the number of distinct ways to reach the top."
+    },
+    "example_1": {
+      "input": {
+        "n": 2
+      },
+      "output": 2,
+      "explanation": "There are two ways to climb to the top: 1+1 and 2."
+    },
+    "example_2": {
+      "input": {
+        "n": 3
+      },
+      "output": 3,
+      "explanation": "There are three ways to climb to the top: 1+1+1, 1+2, and 2+1."
+    },
+    "constraints": [
+      "1 <= n <= 45"
+    ]
+    },
+
+    {
+    "problem_no": 12 ,      
+    "problem_name": "House Robber",
+    "description": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. The only constraint stopping you from robbing each of them is that adjacent houses have security systems connected, and it will automatically contact the police if two adjacent houses are broken into on the same night. Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.",
+    "input": {
+      "nums": "An array of non-negative integers representing the amount of money in each house."
+    },
+    "output": {
+      "result": "An integer representing the maximum amount of money you can rob without alerting the police."
+    },
+    "example_1": {
+      "input": {
+        "nums": [1, 2, 3, 1]
+      },
+      "output": 4,
+      "explanation": "Rob house 1 (money = 1) and then rob house 3 (money = 3). Total = 1 + 3 = 4."
+    },
+    "example_2": {
+      "input": {
+        "nums": [2, 7, 9, 3, 1]
+      },
+      "output": 12,
+      "explanation": "Rob house 1 (money = 2), house 3 (money = 9), and house 5 (money = 1). Total = 2 + 9 + 1 = 12."
+    },
+    "constraints": [
+      "1 <= nums.length <= 100",
+      "0 <= nums[i] <= 400"
+    ]
+    },
+  
+    {
+    "problem_no": 13 ,  
+    "problem_name": "Min Cost Climbing Stairs",
+    "description": "You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.",
+    "input": {
+      "cost": "An array of non-negative integers where cost[i] represents the cost of the ith step."
+    },
+    "output": {
+      "result": "An integer representing the minimum cost to reach the top of the floor."
+    },
+    "example_1": {
+      "input": {
+        "cost": [10, 15, 20]
+      },
+      "output": 15,
+      "explanation": "Start at index 1. Pay 15 and climb two steps to reach the top."
+    },
+    "example_2": {
+      "input": {
+        "cost": [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
+      },
+      "output": 6,
+      "explanation": "Start at index 0. Pay 1 -> climb to index 2. Pay 1 -> climb to index 4. Pay 1 -> climb to index 6. Pay 1 -> climb to index 7. Pay 1 -> climb to index 9. Pay 1 -> reach the top. Total cost = 6."
+    },
+    "constraints": [
+      "2 <= cost.length <= 1000",
+      "0 <= cost[i] <= 999"
+    ]
+    },
+
+    {
+    "problem_no": 14 ,  
+    "problem_name": "Find First and Last Position of Element in Sorted Array",
+    "description": "Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1]. You must write an algorithm with O(log n) runtime complexity.",
+    "input": {
+      "nums": "An array of integers sorted in non-decreasing order.",
+      "target": "An integer representing the target value to find."
+    },
+    "output": {
+      "result": "An array of two integers representing the starting and ending index of the target value. If the target is not found, return [-1, -1]."
+    },
+    "examples": [
+      {
+        "input": {
+          "nums": [5, 7, 7, 8, 8, 10],
+          "target": 8
+        },
+        "output": [3, 4]
+      },
+      {
+        "input": {
+          "nums": [5, 7, 7, 8, 8, 10],
+          "target": 6
+        },
+        "output": [-1, -1]
+      },
+      {
+        "input": {
+          "nums": [],
+          "target": 0
+        },
+        "output": [-1, -1]
+      }
+    ],
+    "constraints": [
+      "0 <= nums.length <= 10^5",
+      "-10^9 <= nums[i] <= 10^9",
+      "nums is a non-decreasing array.",
+      "-10^9 <= target <= 10^9"
+    ]
+    },
+
+    {
+    "problem_no": 15 ,  
+    "problem_name": "Find the Highest Altitude",
+    "description": "There is a biker going on a road trip. The road trip consists of n + 1 points at different altitudes. The biker starts his trip on point 0 with altitude equal 0. You are given an integer array gain of length n where gain[i] is the net gain in altitude between points i and i + 1. Return the highest altitude of a point.",
+    "input": {
+      "gain": "An array of integers where gain[i] represents the net gain in altitude between points i and i + 1."
+    },
+    "output": {
+      "result": "An integer representing the highest altitude reached during the trip."
+    },
+    "examples": [
+      {
+        "input": {
+          "gain": [-5, 1, 5, 0, -7]
+        },
+        "output": 1,
+        "explanation": "The altitudes are [0, -5, -4, 1, 1, -6]. The highest is 1."
+      },
+      {
+        "input": {
+          "gain": [-4, -3, -2, -1, 4, 3, 2]
+        },
+        "output": 0,
+        "explanation": "The altitudes are [0, -4, -7, -9, -10, -6, -3, -1]. The highest is 0."
+      }
+    ],
+    "constraints": [
+      "n == gain.length",
+      "1 <= n <= 100",
+      "-100 <= gain[i] <= 100"
+    ]
+    },
+
+    {
+    "problem_no": 16 ,   
+    "problem_name": "Unique Number of Occurrences",
+    "description": "Given an array of integers arr, return true if the number of occurrences of each value in the array is unique or false otherwise.",
+    "input": {
+      "arr": "An array of integers where each integer represents a value in the array."
+    },
+    "output": {
+      "result": "Boolean value: true if all values in arr have unique occurrence counts, false otherwise."
+    },
+    "examples": [
+      {
+        "input": {
+          "arr": [1, 2, 2, 1, 1, 3]
+        },
+        "output": true,
+        "explanation": "The value 1 occurs 3 times, 2 occurs 2 times, and 3 occurs 1 time. All frequencies are unique."
+      },
+      {
+        "input": {
+          "arr": [1, 2]
+        },
+        "output": false,
+        "explanation": "Both 1 and 2 occur once. The frequencies are not unique."
+      },
+      {
+        "input": {
+          "arr": [-3, 0, 1, -3, 1, 1, 1, -3, 10, 0]
+        },
+        "output": true,
+        "explanation": "Frequencies are: -3 → 3, 0 → 2, 1 → 4, 10 → 1. All frequencies are unique."
+      }
+    ],
+    "constraints": [
+      "1 <= arr.length <= 1000",
+      "-1000 <= arr[i] <= 1000"
+    ]
+    },
+    
+    {
+    "problem_no": 17 ,  
+    "problem_name": "RecentCounter",
+    "description": "Implement the RecentCounter class to count the number of recent requests within a 3000 milliseconds window.",
+    "class": {
+      "name": "RecentCounter",
+      "methods": [
+        {
+          "name": "RecentCounter",
+          "description": "Initializes the RecentCounter object.",
+          "input": [],
+          "output": "null"
+        },
+        {
+          "name": "ping",
+          "description": "Adds a new request at time t and returns the number of requests that have occurred in the past 3000 milliseconds (inclusive).",
+          "input": {
+            "t": "Integer representing the time in milliseconds"
+          },
+          "output": "Integer count of recent requests within the range [t - 3000, t]"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "input": {
+          "calls": ["RecentCounter", "ping", "ping", "ping", "ping"],
+          "arguments": [[], [1], [100], [3001], [3002]]
+        },
+        "output": [null, 1, 2, 3, 3],
+        "explanation": [
+          "RecentCounter recentCounter = new RecentCounter();",
+          "recentCounter.ping(1); // requests = [1], range = [-2999, 1], return 1",
+          "recentCounter.ping(100); // requests = [1, 100], range = [-2900, 100], return 2",
+          "recentCounter.ping(3001); // requests = [1, 100, 3001], range = [1, 3001], return 3",
+          "recentCounter.ping(3002); // requests = [1, 100, 3001, 3002], range = [2, 3002], return 3"
+        ]
+      }
+    ],
+    "constraints": [
+      "1 <= t <= 10^9",
+      "Each call to ping has strictly increasing values of t.",
+      "At most 10^4 calls will be made to ping."
+    ]
+    },
+    {
+    "problem_no": 18 ,  
+    "problem_name": "Daily Temperatures",
+    "description": "Given a list of daily temperatures, return a list such that for each day, it tells you how many days you would have to wait until a warmer temperature. If no warmer day exists, return 0 for that day.",
+    "input": {
+      "temperatures": "Array of integers representing daily temperatures"
+    },
+    "output": {
+      "answer": "Array of integers where answer[i] is the number of days to wait until a warmer temperature"
+    },
+    "examples": [
+      {
+        "input": {
+          "temperatures": [73, 74, 75, 71, 69, 72, 76, 73]
+        },
+        "output": [1, 1, 4, 2, 1, 1, 0, 0],
+        "explanation": "After day 0 (73), you wait 1 day for 74. After day 2 (75), wait 4 days for 76. Last two days have no warmer days."
+      },
+      {
+        "input": {
+          "temperatures": [30, 40, 50, 60]
+        },
+        "output": [1, 1, 1, 0],
+        "explanation": "Each day has a warmer temperature the next day, except the last."
+      },
+      {
+        "input": {
+          "temperatures": [30, 60, 90]
+        },
+        "output": [1, 1, 0],
+        "explanation": "After each day, wait one day for a warmer temperature, except the last."
+      }
+    ],
+    "constraints": [
+      "1 <= temperatures.length <= 100000",
+      "30 <= temperatures[i] <= 100"
+    ]
+  },
+  {
+    "problem_no" : 19,
+    "problem_name": "Stock Span",
+    "description": "Design an algorithm that calculates the span of a stock's price for each day based on previous prices. The span of a stock's price on a particular day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.",
+    "input": {
+      "StockSpanner": "Initializes the StockSpanner object.",
+      "next(price)": "Returns the span of the stock's price for the current day, given that the price of the stock today is 'price'."
+    },
+    "output": {
+      "span": "Returns the span of the stock price for the current day."
+    },
+    "examples": [
+      {
+        "input": [
+          ["StockSpanner", "next", "next", "next", "next", "next", "next", "next"],
+          [[], [100], [80], [60], [70], [60], [75], [85]]
+        ],
+        "output": [
+          null,
+          1,
+          1,
+          1,
+          2,
+          1,
+          4,
+          6
+        ],
+        "explanation": "For the given prices, the spans for each day are calculated as follows: \n - 100 -> 1 (no previous days) \n - 80 -> 1 (no previous day with price <= 80) \n - 60 -> 1 (no previous day with price <= 60) \n - 70 -> 2 (previous day with price <= 70 is 60) \n - 60 -> 1 (no previous day with price <= 60) \n - 75 -> 4 (previous days with prices <= 75 are 60, 70, 60, 75) \n - 85 -> 6 (previous days with prices <= 85 are 60, 70, 60, 75, 85)"
+      }
+    ],
+    "constraints": [
+      "1 <= price <= 10^5",
+      "At most 10^4 calls will be made to 'next'."
+    ]
+  },
+  {
+    "problem_no" : 20,
+    "problem_name": "Single Number",
+    "description": "Given a non-empty array of integers where every element appears twice except for one, find the single one. You must implement a solution with linear runtime complexity and constant extra space.",
+    "input": {
+      "nums": "An array of integers, where every element appears twice except for one element which appears only once."
+    },
+    "output": {
+      "single_number": "The single number in the array that appears only once."
+    },
+    "examples": [
+      {
+        "input": {
+          "nums": [2,2,1]
+        },
+        "output": 1,
+        "explanation": "In the array [2, 2, 1], the number 1 appears once while 2 appears twice, so the single number is 1."
+      },
+      {
+        "input": {
+          "nums": [4,1,2,1,2]
+        },
+        "output": 4,
+        "explanation": "In the array [4, 1, 2, 1, 2], the number 4 appears once while the other numbers appear twice, so the single number is 4."
+      },
+      {
+        "input": {
+          "nums": [1]
+        },
+        "output": 1,
+        "explanation": "In the array [1], the number 1 is the only element and hence the single number."
+      }
+    ],
+    "constraints": [
+      "1 <= nums.length <= 3 * 10^4",
+      "-3 * 10^4 <= nums[i] <= 3 * 10^4",
+      "Each element in the array appears twice except for one element which appears only once."
+    ]
+  },
+  {
+    "problem_no" : 21,
+    "problem_name": "Counter Function",
+    "description": "Given an integer n, return a counter function. This counter function initially returns n and then returns 1 more than the previous value every subsequent time it is called (n, n + 1, n + 2, etc).",
+    "input": {
+      "n": "An integer n (-1000 <= n <= 1000).",
+      "calls": "A list of strings where each string is 'call'. The length of calls is between 0 and 1000."
+    },
+    "output": {
+      "result": "An array of integers representing the result of calling the counter function for each 'call' in the input list."
+    },
+    "examples": [
+      {
+        "input": {
+          "n": 10,
+          "calls": ["call", "call", "call"]
+        },
+        "output": [10, 11, 12],
+        "explanation": "The counter function starts with 10 and increases by 1 with each subsequent call, resulting in [10, 11, 12]."
+      },
+      {
+        "input": {
+          "n": -2,
+          "calls": ["call", "call", "call", "call", "call"]
+        },
+        "output": [-2, -1, 0, 1, 2],
+        "explanation": "The counter function starts with -2 and increases by 1 with each subsequent call, resulting in [-2, -1, 0, 1, 2]."
+      }
+    ],
+    "constraints": [
+      "-1000 <= n <= 1000",
+      "0 <= calls.length <= 1000",
+      "calls[i] === 'call'"
+    ]
+  },
+  {
+    "problem_no":22,
+    "problem_name": "Function Composition",
+    "description": "Given an array of functions [f1, f2, f3, ..., fn], return a new function fn that is the function composition of the array of functions.",
+    "input": {
+      "functions": "An array of functions where each function accepts one integer as input and returns one integer as output.",
+      "x": "An integer to be passed as the input to the composed function."
+    },
+    "output": {
+      "result": "The result of applying the composed function to x."
+    },
+    "examples": [
+      {
+        "input": {
+          "functions": ["x => x + 1", "x => x * x", "x => 2 * x"],
+          "x": 4
+        },
+        "output": 65,
+        "explanation": "Evaluating from right to left, starting with x = 4:\n2 * (4) = 8\n(8) * (8) = 64\n(64) + 1 = 65"
+      },
+      {
+        "input": {
+          "functions": ["x => 10 * x", "x => 10 * x", "x => 10 * x"],
+          "x": 1
+        },
+        "output": 1000,
+        "explanation": "Evaluating from right to left, starting with x = 1:\n10 * (1) = 10\n10 * (10) = 100\n10 * (100) = 1000"
+      },
+      {
+        "input": {
+          "functions": [],
+          "x": 42
+        },
+        "output": 42,
+        "explanation": "The composition of zero functions is the identity function, so the output is the same as the input: 42."
+      }
+    ],
+    "constraints": [
+      "-1000 <= x <= 1000",
+      "0 <= functions.length <= 1000",
+      "all functions accept and return a single integer"
+    ]
+  }           
+  ]
+  

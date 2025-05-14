@@ -4,11 +4,16 @@ import { refactoringModel, metricsModel } from './config/genAI.js';
 import { connectDB } from './config/database.js';
 import userRoutes from './routes/userRoutes.js';
 import preference from './routes/preferenceRoutes.js';
+import compilation from './routes/compile.js';
+import challenges from './routes/challenge.js';
 
 const app = express();
 const port = 3000;
 
-connectDB();
+// Connect to DB (only when not in test mode, optional)
+if (process.env.NODE_ENV !== 'test') {
+  connectDB();
+}
 
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +21,8 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use('/auth', userRoutes);
 app.use('/pref', preference);
+app.use('/code', compilation);
+app.use('/', challenges)
 
 // POST endpoint for code refactoring
 app.post('/generate', async (req, res) => {
@@ -68,7 +75,12 @@ app.post('/metrics', async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running at port ${port}`);
-});
+// Start the server only when run directly (not during tests)
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running at port ${port}`);
+  });
+}
+
+// Export app for testing
+export default app;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/navbar';
@@ -9,9 +9,32 @@ const Home = () => {
     const { ref: firstColumnRef, inView: isFirstVisible } = useInView({ threshold: 0.1 });
     const { ref: secondColumnRef, inView: isSecondVisible } = useInView({ threshold: 0.1 });
     const { ref: thirdColumnRef, inView: isThirdVisible } = useInView({ threshold: 0.1 });
+    const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
+    
+        useEffect(() => {
+            const handleStorageChange = () => {
+                setDarkMode(JSON.parse(localStorage.getItem('darkMode')) || false);
+            };
+    
+            window.addEventListener('storage', handleStorageChange);
+    
+            return () => {
+                window.removeEventListener('storage', handleStorageChange);
+            };
+        }, []);
+    
+        const textColor = darkMode ? 'text-white' : 'text-black';
+    
+    const subTextColor = darkMode ? 'text-gray-300' : 'text-gray-700';
+    
+    const bgColor = darkMode
+      ? 'bg-gradient-to-br from-gray-800 via-gray-950 to-black'
+      : 'bg-gradient-to-br from-white via-gray-200 to-gray-400';
+    
 
     return (
-        <div className="h-screen overflow-y-auto overflow-x-hidden relative pb-9" style={{ backgroundColor: 'white' }}>
+        <div className={`h-screen overflow-y-auto overflow-x-hidden relative pb-9 ${bgColor}`}>
+
             <Navbar />
             <div
                 className="flex flex-col justify-center items-center"
@@ -20,7 +43,7 @@ const Home = () => {
                     fontSize: '2.5em',
                 }}
             >
-                <h1 className='font-Poppins'>
+                <h1 className={`font-Poppins ${textColor}`}>
                     <Typewriter
                         words={['Simplify. Optimize. Transform.']}
                         loop={false}
@@ -56,7 +79,7 @@ const Home = () => {
                         className={`w-1/2 transition-transform duration-1000 ease-out ${isFirstVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}
                     >
                         <div className="flex flex-col">
-                            <div className="flex flex-row items-center mb-6 ml-auto" style={{marginTop: '7%'}}>
+                            <div className={`flex flex-row items-center mb-6 ml-auto ${textColor}`} style={{marginTop: '7%'}}>
                                 <div
                                     className="flex justify-center items-center font-Poppins"
                                     style={{
@@ -91,9 +114,10 @@ const Home = () => {
                                     1
                                 </Link>
                             </div>
-                            <h1 className='font-PoppinsRegular' style={{ fontSize: '1.3em' }}>
-                                Our platform helps developers improve code quality by automatically suggesting refactoring improvements, like removing duplicates and unused variables.
-                            </h1>
+                            <h1 className={`font-PoppinsRegular ${textColor}`} style={{ fontSize: '1.3em' }}>
+                           OptiCode is an AI-powered code refactoring and collaboration 
+platform that enhances development workflows by providing automated code 
+improvement suggestions, real-time collaboration, and GitHub repository insights.</h1>
                         </div>
                     </div>
                 </div>
@@ -136,7 +160,7 @@ const Home = () => {
                                     2
                                 </Link>
                                 <div
-                                    className="flex justify-center items-center"
+                                    className={`flex justify-center items-center ${textColor}`}
                                     style={{
                                         fontSize: '1.7em',
                                         marginLeft: '20px',
@@ -145,7 +169,7 @@ const Home = () => {
                                     How To Use
                                 </div>
                             </div>
-                            <h1 className='font-PoppinsRegular' style={{ fontSize: '1.3em' }}>
+                            <h1 className={`font-PoppinsRegular ${textColor}`} style={{ fontSize: '1.3em' }}>
                                 1. Connect your GitHub account<br/>
                                 2. Choose a repository<br/>
                                 3. Let the platform analyze your codebase, and start receiving personalized, actionable feedback to enhance code quality. 
@@ -188,7 +212,7 @@ const Home = () => {
                         <div className="flex flex-col">
                             <div className="flex flex-row items-center mb-6 ml-auto font-Poppins" style={{ marginTop: '7%'}}>
                                 <div
-                                    className="flex justify-center items-center"
+                                    className={`flex justify-center items-center ${textColor}`}
                                     style={{
                                         fontSize: '1.7em',
                                         marginRight: '20px',
@@ -221,7 +245,7 @@ const Home = () => {
                                     3
                                 </Link>
                             </div>
-                            <h1 className='font-PoppinsRegular' style={{ fontSize: '1.3em' }}>
+                            <h1 className={`flex justify-center items-center ${textColor}`} style={{ fontSize: '1.3em' }}>
                                 Our platform helps developers improve code quality by automatically suggesting refactoring improvements, like removing duplicates and unused variables.
                             </h1>
                         </div>

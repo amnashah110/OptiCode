@@ -30,10 +30,12 @@ const Analyze = () => {
 
   const textColor = darkMode ? 'text-white' : 'text-black';
   const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
-  const bgColor = darkMode ? 'bg-gray-950' : 'bg-white';
+  const bgColor = darkMode
+  ? 'bg-gradient-to-br from-gray-500 via-gray-950 to-black'
+  : 'bg-gradient-to-br from-white via-gray-300 to-gray-400';
   const codeBgColor = darkMode ? 'bg-gray-900' : 'bg-gray-200';
   const codeHeadingColor = darkMode ? 'bg-black' : 'bg-gray-700';
-  const codeColor = darkMode ? 'text-white' : 'text-black';
+  const codeColor = darkMode ? 'text-green-200' : 'text-blue-950';
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -121,7 +123,7 @@ const Analyze = () => {
             <motion.button
               whileTap={{ scale: 0.7 }}
               type="submit"
-              className={`font-Poppins mt-2 py-3 ${codeHeadingColor} text-white rounded-md hover:bg-gray-800 hover:duration-300`}
+              className={`font-Poppins mt-2 py-3 ${codeHeadingColor} text-white rounded-md hover:bg-green-400 hover:duration-300`}
               style={{
                 boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)'
               }}

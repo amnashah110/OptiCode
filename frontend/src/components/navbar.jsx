@@ -105,11 +105,11 @@ const Navbar = () => {
 
             {/* Centered Navbar Links */}
             <div
-                className="flex flex-1 justify-center space-x-10"
+                className="flex flex-1 justify-center space-x-10 mr-5"
                 style={{ flex: 2, textAlign: 'center' }}
             >
-                {['Home', 'Analyze', 'Metrics', 'Repositories', 'Code Editor', 'About'].map((linkName, index) => {
-                    const paths = ['/', '/analyze', '/metrics', '/repositories', '/editor', '/about'];
+                {['Home', 'Analyze', 'Metrics', 'Repositories', 'Code Editor', 'Challenges', 'About'].map((linkName, index) => {
+                    const paths = ['/', '/analyze', '/metrics', '/repositories', '/editor', '/challenges', '/about'];
                     return (
                         <div className="relative" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }} key={index}>
                             <Link

@@ -11,6 +11,7 @@ import { RiDownload2Fill } from "react-icons/ri";
 import { MdArrowBack } from "react-icons/md";
 
 const username = localStorage.getItem('githubHandle');
+const SHA = '';
 
 const allowedExtensions = [
     "js", "jsx", "ts", "tsx", "html", "css", "scss", "json", "xml", "py",
@@ -79,10 +80,22 @@ const Repositories = () => {
     }, []);
 
     const textColor = darkMode ? 'text-white' : 'text-black';
-    const subTextColor = darkMode ? 'text-gray-300' : 'text-black';
-    const bgColor = darkMode ? '#030712' : 'rgb(255, 255, 255)';
-    const sideBarColor = darkMode ? 'rgb(23, 30, 43)' : 'rgb(65, 65, 66)';
-    const mainBarColor = darkMode ? 'rgb(14, 17, 22)' : 'rgb(40, 40, 41)';
+
+    const subTextColor = darkMode ? 'text-gray-300' : 'text-gray-700';
+
+    const bgColor = darkMode
+        ? 'bg-gradient-to-br from-gray-800 via-gray-950 to-black'
+        : 'bg-gradient-to-br from-white via-gray-200 to-gray-400';
+
+    const sideBarColor = darkMode
+        ? 'bg-gradient-to-br from-gray-700 via-gray-800 to-black'
+        : 'bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400';
+
+
+    const mainBarColor = darkMode
+        ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-black'
+        : 'bg-gradient-to-br from-gray-100 via-white to-gray-300';
+
 
     const copyToClipboard = () => {
         const code = fileContent || '';
@@ -97,7 +110,11 @@ const Repositories = () => {
     useEffect(() => {
         const fetchRepositories = async () => {
             try {
-                const response = await fetch(`https://api.github.com/users/${username}/repos`);
+                const response = await fetch(`https://api.github.com/users/${username}/repos`, {
+                    headers: {
+                        Authorization: `token ${SHA}`
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch repositories');
                 }
@@ -118,7 +135,11 @@ const Repositories = () => {
         try {
             setSelectedRepo(repoName);
             setCurrentPath(path);
-            const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${path}`);
+            const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${path}`, {
+                headers: {
+                    Authorization: `token ${SHA}`
+                }
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch files');
             }
@@ -200,21 +221,19 @@ const Repositories = () => {
     };
 
     return (
-        <div className={`h-screen overflow-hidden relative pb-9`} style={{ backgroundColor: bgColor }}>
+        <div className={`h-screen overflow-hidden relative pb-9 ${bgColor}`} >
             <Navbar />
             <div className='flex flex-row'>
-                <div className={`w-1/5`} style={{ padding: '20px', color: 'white', minHeight: '100vh', backgroundColor: mainBarColor }}>
-                    <h2 className='font-Poppins text-center p-4' style={{ fontSize: '1.1em' }}>Repositories</h2>
+                <div className={`w-1/5 ${mainBarColor} ${textColor} p-5 min-h-screen`}>
+                    <h2 className="font-Poppins text-center p-4 text-[1.1em]">Repositories</h2>
                     <div
+                        className="max-h-[75vh] overflow-y-auto overflow-x-hidden font-[PoppinsRegular]"
                         style={{
-                            maxHeight: '75vh',
-                            overflowY: 'auto',
-                            overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: darkMode ? `rgb(160, 160, 160) ${mainBarColor}` : `rgb(7, 7, 7) ${mainBarColor}`,
-                            fontFamily: 'PoppinsRegular'
+                            scrollbarColor: darkMode ? '#1f2937 #000' : '#e5e7eb #fff', // real colors for scrollbar
                         }}
                     >
+
                         {listLoaded ? (
                             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                                 {repoNames.map((name, index) => (
@@ -247,7 +266,7 @@ const Repositories = () => {
                     </div>
                 </div>
 
-                <div className={`w-1/5`} style={{ padding: '20px', color: 'white', backgroundColor: sideBarColor }}>
+                <div className={`w-1/5 ${sideBarColor} ${textColor}`} style={{ padding: '20px' }}>
                     <h2 className='font-Poppins text-center p-4'
                         style={{
                             fontSize: '1.1em',
@@ -269,7 +288,7 @@ const Repositories = () => {
                             overflowY: 'auto',
                             overflowX: 'hidden',
                             scrollbarWidth: 'thin',
-                            scrollbarColor: darkMode ? `rgb(160, 160, 160) ${sideBarColor}` : `rgb(7, 7, 7) ${sideBarColor}`,
+                            scrollbarColor: darkMode ? `${sideBarColor}` : `${sideBarColor}`,
                         }}
                     >
                         {filesLoaded ? (

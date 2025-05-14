@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-const mongoURI = process.env.MONGO_DB_URI;
+const mongoURI = process.env.NODE_ENV === 'test'
+  ? process.env.MONGO_TEST_URI
+  : process.env.MONGO_DB_URI
 
 // Function to connect to MongoDB
 export const connectDB = async () => {

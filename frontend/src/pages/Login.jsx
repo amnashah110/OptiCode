@@ -115,6 +115,7 @@ const LoginPage = () => {
                 localStorage.setItem('lastName', response.data.user.lastName);
                 localStorage.setItem('githubHandle', response.data.user.githubHandle);
                 localStorage.setItem('darkMode', response.data.user.darkMode);
+                localStorage.setItem('dev', response.data.user.dev);
                 navigate('/');
             } else {
                 setLoginError(true);

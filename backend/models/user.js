@@ -13,7 +13,7 @@ const userSchema = new Schema({
     age: {
         type: Number,
         required: true,
-        min: 13 // Assuming minimum age requirement
+        min: 13 
     },
     githubHandle: {
         type: String,
@@ -33,6 +33,14 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    dev: {
+        type: String,
+    },
+    assignedLearners: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    }]
 });
 
 const User = mongoose.model('User', userSchema);
